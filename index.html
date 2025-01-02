@@ -1,0 +1,399 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+      width: 300px;
+      text-align: center;
+    }
+
+    .display {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      font-size: 2.5em;
+      padding: 15px;
+      text-align: right;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.5em;
+      border: none;
+      border-radius: 50%;
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #444;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .btn-operator {
+      background: #ff9500;
+      color: #fff;
+    }
+
+    .btn-operator:hover {
+      background: #ff7d00;
+    }
+
+    .btn-clear {
+      background: #d9534f;
+    }
+
+    .btn-clear:hover {
+      background: #c9302c;
+    }
+
+    .btn-zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <input type="text" id="display" class="display" disabled value="0">
+    <div class="buttons">
+      <button class="btn-clear" onclick="clearDisplay()">C</button>
+      <button class="btn-operator" onclick="handleDigitPress('')">X</button>
+      <button class="btn-operator" onclick="handleDigitPress('')">/</button>
+      <button class="btn-operator" onclick="submitInput('+')">+</button>
+
+      <button onclick="handleDigitPress('7')">7</button>
+      <button onclick="handleDigitPress('8')">8</button>
+      <button onclick="handleDigitPress('9')">9</button>
+      <button class="btn-operator" onclick="submitInput('=')">=</button>
+
+      <button onclick="handleDigitPress('4')">4</button>
+      <button onclick="handleDigitPress('5')">5</button>
+      <button onclick="handleDigitPress('6')">6</button>
+      <button class="btn-operator" onclick="revealDigit()">?</button>
+
+      <button onclick="handleDigitPress('1')">1</button>
+      <button onclick="handleDigitPress('2')">2</button>
+      <button onclick="handleDigitPress('3')">3</button>
+      <button class="btn-operator">#</button>
+
+      <button class="btn-zero" onclick="handleDigitPress('0')">0</button>
+    </div>
+  </div>
+
+  <script>
+    const secretNumber = 7337600; // Secret number
+    let acc = 0; // Accumulator for pincode + dob1 + dob2
+    let inputs = { pincode: null, dob1: null, dob2: null };
+    let magicNumber = 0; // Calculated magic number (secretNumber - acc)
+    let revealedDigits = ''; // The digits revealed so far
+
+    // Tracks which input is being collected (pincode, dob1, dob2)
+    let currentInput = 'pincode';
+
+    // Append a digit or reveal part of the magic number
+    function handleDigitPress(digit) {
+      const display = document.getElementById('display');
+
+      if (currentInput === 'random') {
+        revealDigit();
+      } else {
+        if (display.value === '0' || display.value[display.value.length - 1] === '+') {
+          display.value = digit;
+        } else {
+          display.value = display.value * 10 + parseInt(digit);
+        }
+      }
+    }
+
+    // Clear the display
+    function clearDisplay() {
+      const display = document.getElementById('display');
+      display.value = '0';
+    }
+
+    // Submit the current input (pincode, dob1, or dob2)
+    function submitInput(op) {
+      const display = document.getElementById('display');
+      const value = parseInt(display.value, 10);
+
+      if (isNaN(value)) {
+        alert('Please enter a valid number!');
+        return;
+      }
+
+      if (currentInput === 'pincode') {
+        inputs.pincode = value;
+        acc += value;
+        currentInput = 'dob1';
+        display.value = acc + "+";
+      } else if (currentInput === 'dob1') {
+        inputs.dob1 = value;
+        acc += value;
+        currentInput = 'dob2';
+        display.value = acc + "+";
+      } else if (currentInput === 'dob2') {
+        inputs.dob2 = value;
+        acc += value;
+        magicNumber = secretNumber - acc; // Calculate the magic number
+        display.value = acc;
+        currentInput = 'random';
+      } else if (currentInput === 'final' && op === '=') {
+        display.value = secretNumber;
+      }
+    }
+
+    // Reveal one digit of the magic number at a time
+    function revealDigit() {
+      const display = document.getElementById('display');
+      const magicNumberStr = String(magicNumber);
+
+      if (revealedDigits.length < magicNumberStr.length) {
+        revealedDigits += magicNumberStr[revealedDigits.length];
+        display.value = revealedDigits;
+      } else {
+        currentInput = 'final';
+      }
+    }
+  </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Calculator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #141E30, #243B55);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #1E1E2F;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      box-sizing: border-box;
+    }
+
+    .display {
+      width: 100%;
+      background: #0D1117;
+      color: #FFF;
+      font-size: 2.5em;
+      padding: 20px;
+      text-align: right;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      flex-grow: 1;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.5em;
+      border: none;
+      border-radius: 15px;
+      background: #2C2F3F;
+      color: #FFF;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      background: #3A3D54;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-operator {
+      background: #FF9500;
+      color: #FFF;
+    }
+
+    .btn-operator:hover {
+      background: #FF8500;
+    }
+
+    .btn-clear {
+      background: #D9534F;
+    }
+
+    .btn-clear:hover {
+      background: #C9302C;
+    }
+
+    .btn-zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <input type="text" id="display" class="display" disabled value="0">
+    <div class="buttons">
+      <button class="btn-clear" onclick="clearDisplay()">C</button>
+      <button class="btn-operator" onclick="handleDigitPress('')">X</button>
+      <button class="btn-operator" onclick="handleDigitPress('')">/</button>
+      <button class="btn-operator" onclick="submitInput('+')">+</button>
+
+      <button onclick="handleDigitPress('7')">7</button>
+      <button onclick="handleDigitPress('8')">8</button>
+      <button onclick="handleDigitPress('9')">9</button>
+      <button class="btn-operator" onclick="submitInput('=')">=</button>
+
+      <button onclick="handleDigitPress('4')">4</button>
+      <button onclick="handleDigitPress('5')">5</button>
+      <button onclick="handleDigitPress('6')">6</button>
+      <button class="btn-operator" onclick="revealDigit()">?</button>
+
+      <button onclick="handleDigitPress('1')">1</button>
+      <button onclick="handleDigitPress('2')">2</button>
+      <button onclick="handleDigitPress('3')">3</button>
+      <button class="btn-operator">#</button>
+
+      <button class="btn-zero" onclick="handleDigitPress('0')">0</button>
+    </div>
+  </div>
+
+  <script>
+    const secretNumber = 7337600; // Secret number
+    let acc = 0; // Accumulator for pincode + dob1 + dob2
+    let inputs = { pincode: null, dob1: null, dob2: null };
+    let magicNumber = 0; // Calculated magic number (secretNumber - acc)
+    let revealedDigits = ''; // The digits revealed so far
+
+    // Tracks which input is being collected (pincode, dob1, dob2)
+    let currentInput = 'pincode';
+
+    // Append a digit or reveal part of the magic number
+    function handleDigitPress(digit) {
+      const display = document.getElementById('display');
+
+      if (currentInput === 'random') {
+        revealDigit();
+      } else {
+        if (display.value === '0' || display.value[display.value.length - 1] === '+') {
+          display.value = digit;
+        } else {
+          display.value = display.value * 10 + parseInt(digit);
+        }
+      }
+    }
+
+    // Clear the display
+    function clearDisplay() {
+      const display = document.getElementById('display');
+      display.value = '0';
+    }
+
+    // Submit the current input (pincode, dob1, or dob2)
+    function submitInput(op) {
+      const display = document.getElementById('display');
+      const value = parseInt(display.value, 10);
+
+      if (isNaN(value)) {
+        alert('Please enter a valid number!');
+        return;
+      }
+
+      if (currentInput === 'pincode') {
+        inputs.pincode = value;
+        acc += value;
+        currentInput = 'dob1';
+        display.value = acc + "+";
+      } else if (currentInput === 'dob1') {
+        inputs.dob1 = value;
+        acc += value;
+        currentInput = 'dob2';
+        display.value = acc + "+";
+      } else if (currentInput === 'dob2') {
+        inputs.dob2 = value;
+        acc += value;
+        magicNumber = secretNumber - acc; // Calculate the magic number
+        display.value = acc;
+        currentInput = 'random';
+      } else if (currentInput === 'final' && op === '=') {
+        display.value = secretNumber;
+      }
+    }
+
+    // Reveal one digit of the magic number at a time
+    function revealDigit() {
+      const display = document.getElementById('display');
+      const magicNumberStr = String(magicNumber);
+
+      if (revealedDigits.length < magicNumberStr.length) {
+        revealedDigits += magicNumberStr[revealedDigits.length];
+        display.value = revealedDigits;
+      } else {
+        currentInput = 'final';
+      }
+    }
+  </script>
+</body>
+
+</html>
